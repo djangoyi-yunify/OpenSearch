@@ -341,7 +341,7 @@ appender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%ma
 appender.rolling_old.type = RollingFile
 appender.rolling_old.name = rolling_old
 appender.rolling_old.fileName = \${sys:opensearch.logs.base_path}\${sys:file.separator}\${sys:opensearch.logs.cluster_name}.log
-appender.rolling_old.filePermissions = rw-r-----
+#appender.rolling_old.filePermissions = rw-r-----
 appender.rolling_old.layout.type = PatternLayout
 appender.rolling_old.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%marker %m%n
 
@@ -354,13 +354,12 @@ appender.rolling_old.policies.size.type = SizeBasedTriggeringPolicy
 appender.rolling_old.policies.size.size = 128MB
 appender.rolling_old.strategy.type = DefaultRolloverStrategy
 appender.rolling_old.strategy.fileIndex = nomax
-appender.rolling_old.strategy.action.type = Delete
-appender.rolling_old.strategy.action.basepath = \${sys:opensearch.logs.base_path}
-appender.rolling_old.strategy.action.condition.type = IfAny
-appender.rolling_old.strategy.action.condition.nested_condition.type = IfAccumulatedFileSize
-appender.rolling_old.strategy.action.condition.nested_condition.exceeds = 200MB
-appender.rolling_old.strategy.action.condition.nested_condition.lastMod.type = IfLastModified
-appender.rolling_old.strategy.action.condition.nested_condition.lastMod.age = ${cleanLogsOlderThanNDays}D
+appender.rolling_old.strategy.delete.type = Delete
+appender.rolling_old.strategy.delete.basePath = \${sys:opensearch.logs.base_path}
+appender.rolling_old.strategy.delete.0.type = IfFileName
+appender.rolling_old.strategy.delete.0.glob = \${sys:opensearch.logs.cluster_name}-*.log.gz
+appender.rolling_old.strategy.delete.1.type = IfLastModified
+appender.rolling_old.strategy.delete.1.age = P${cleanLogsOlderThanNDays}D
 ################################################
 
 rootLogger.level = $rootLoggerLevel
@@ -374,7 +373,7 @@ appender.header_warning.name = header_warning
 appender.deprecation_rolling_old.type = RollingFile
 appender.deprecation_rolling_old.name = deprecation_rolling_old
 appender.deprecation_rolling_old.fileName = \${sys:opensearch.logs.base_path}\${sys:file.separator}\${sys:opensearch.logs.cluster_name}_deprecation.log
-appender.deprecation_rolling_old.filePermissions = rw-r-----
+#appender.deprecation_rolling_old.filePermissions = rw-r-----
 appender.deprecation_rolling_old.layout.type = PatternLayout
 appender.deprecation_rolling_old.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%marker %m%n
 
@@ -396,7 +395,7 @@ logger.deprecation.additivity = false
 appender.search_request_slowlog_log_appender.type = RollingFile
 appender.search_request_slowlog_log_appender.name = search_request_slowlog_log_appender
 appender.search_request_slowlog_log_appender.fileName = \${sys:opensearch.logs.base_path}\${sys:file.separator}\${sys:opensearch.logs.cluster_name}_index_search_slowlog.log
-appender.search_request_slowlog_log_appender.filePermissions = rw-r-----
+#appender.search_request_slowlog_log_appender.filePermissions = rw-r-----
 appender.search_request_slowlog_log_appender.layout.type = PatternLayout
 appender.search_request_slowlog_log_appender.layout.pattern = [%d{ISO8601}][%-5p][%c{1.}] [%node_name]%marker %m%n
 
@@ -417,7 +416,7 @@ logger.search_request_slowlog_logger.additivity = false
 appender.index_search_slowlog_rolling_old.type = RollingFile
 appender.index_search_slowlog_rolling_old.name = index_search_slowlog_rolling_old
 appender.index_search_slowlog_rolling_old.fileName = \${sys:opensearch.logs.base_path}\${sys:file.separator}\${sys:opensearch.logs.cluster_name}_index_search_slowlog.log
-appender.index_search_slowlog_rolling_old.filePermissions = rw-r-----
+#appender.index_search_slowlog_rolling_old.filePermissions = rw-r-----
 appender.index_search_slowlog_rolling_old.layout.type = PatternLayout
 appender.index_search_slowlog_rolling_old.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%marker %m%n
 
@@ -438,7 +437,7 @@ logger.index_search_slowlog_rolling.additivity = false
 appender.index_indexing_slowlog_rolling_old.type = RollingFile
 appender.index_indexing_slowlog_rolling_old.name = index_indexing_slowlog_rolling_old
 appender.index_indexing_slowlog_rolling_old.fileName = \${sys:opensearch.logs.base_path}\${sys:file.separator}\${sys:opensearch.logs.cluster_name}_index_indexing_slowlog.log
-appender.index_indexing_slowlog_rolling_old.filePermissions = rw-r-----
+#appender.index_indexing_slowlog_rolling_old.filePermissions = rw-r-----
 appender.index_indexing_slowlog_rolling_old.layout.type = PatternLayout
 appender.index_indexing_slowlog_rolling_old.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%marker %m%n
 
@@ -459,7 +458,7 @@ logger.index_indexing_slowlog.additivity = false
 appender.task_detailslog_rolling_old.type = RollingFile
 appender.task_detailslog_rolling_old.name = task_detailslog_rolling_old
 appender.task_detailslog_rolling_old.fileName = \${sys:opensearch.logs.base_path}\${sys:file.separator}\${sys:opensearch.logs.cluster_name}_task_detailslog.log
-appender.task_detailslog_rolling_old.filePermissions = rw-r-----
+#appender.task_detailslog_rolling_old.filePermissions = rw-r-----
 appender.task_detailslog_rolling_old.layout.type = PatternLayout
 appender.task_detailslog_rolling_old.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%marker %m%n
 
